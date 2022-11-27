@@ -1,9 +1,13 @@
 import React from "react";
-import Button from "@mui/material/Button";
+import Skeleton from "@mui/material/Skeleton";
+
+import SwipeableEdgeDrawer from "./components/SwipeableEdgeDrawer";
 
 function App() {
     return (
-        <Button variant="contained">Hello World</Button>
+        <SwipeableEdgeDrawer>
+            <Skeleton variant="rectangular" height="100%" />
+        </SwipeableEdgeDrawer>
     )
 }
 
