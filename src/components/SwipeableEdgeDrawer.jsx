@@ -3,6 +3,7 @@ import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
+import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -40,7 +41,7 @@ export default function SwipeableEdgeDrawer(props) {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <Root onClick={toggleDrawer()}>
+        <Root>
             <CssBaseline />
             <Global
                 styles={{
@@ -50,6 +51,9 @@ export default function SwipeableEdgeDrawer(props) {
                     },
                 }}
             />
+            <Box sx={{ textAlign: 'center', pt: 1 }}>
+              <Button onClick={toggleDrawer(true)}>Conditions</Button>
+            </Box>
             <SwipeableDrawer
                 container={container}
                 anchor="bottom"
@@ -71,6 +75,7 @@ export default function SwipeableEdgeDrawer(props) {
                         visibility: "visible",
                         right: 0,
                         left: 0,
+                        height: drawerBleeding
                     }}
                 >
                     <Puller />
@@ -82,7 +87,7 @@ export default function SwipeableEdgeDrawer(props) {
                         px: 2,
                         pb: 2,
                         height: "100%",
-                        overflow: "auto",
+                        overflow: "auto"
                     }}
                 >
                     {children}
