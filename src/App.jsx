@@ -144,6 +144,7 @@ class App extends React.Component {
                     x = e.changedTouches[0].clientX;
                     y = e.changedTouches[0].clientY;
                 }
+                console.log(x, y, "a")
                 this.ball.current.style.transform = `translate(${((this.state.ball.x + x) / 2 - this.state.ball.x) * 0.2}px, ${((this.state.ball.y + y) / 2 - this.state.ball.y) * 0.2}px)`
             }
         }
@@ -198,6 +199,11 @@ class App extends React.Component {
                                     this.setState({ mouseDown: true });
                             }
                         }
+                        onTouchStart={() => {
+                            if (!this.state.mouseDown)
+                                this.setState({ mouseDown: true });
+                        }
+                    }
                     />
                 </Box>
 
