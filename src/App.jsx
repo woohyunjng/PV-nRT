@@ -133,19 +133,34 @@ class App extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        window.addEventListener("mousemove", e => {
+        const move = e => {
             if (this.state.mouseDown) {
                 this.ball.current.style.transform = `translate(${((this.state.ball.x + e.clientX) / 2 - this.state.ball.x) * 0.2}px, ${((this.state.ball.y + e.clientY) / 2 - this.state.ball.y) * 0.2}px)`
             }
-        })
+        }
+        window.addEventListener("mousemove", move)
+        window.addEventListener("touchmove", move)
 
-        window.addEventListener("mouseup", e => {
+        const up = mouse => e => {
             if (this.state.mouseDown) {
+                let x, y;
+                if (mouse) {
+                    x = e.pageX;
+                    y = e.pageY;
+                }
+                else {
+                    x = e.changedTouches[0].pageX;
+                    y = e.changedTouches[0].pageY;
+                }
+
+                console.log(x, y);
                 this.ball.current.style.transform = "translate(0px, 0px)";
-                this.setState({ mouseDown: false, ball: { ...this.state.ball, velocity: Math.sqrt((this.state.ball.x - e.pageX + 10) ** 2 + (this.state.ball.y - e.pageY + 10) ** 2) / 5, direction: Math.atan2(this.state.ball.y - e.pageY + 10, this.state.ball.x - e.pageX + 10) } });
+                this.setState({ mouseDown: false, ball: { ...this.state.ball, velocity: Math.sqrt((this.state.ball.x - x + 10) ** 2 + (this.state.ball.y - y + 10) ** 2) / 5, direction: Math.atan2(this.state.ball.y - y + 10, this.state.ball.x - x + 10) } });
                 setTimeout(this.moveBall.bind(this), 16);
             }
-        }); 
+        }
+        window.addEventListener("mouseup", up(true));
+        window.addEventListener("touchend", up(false)); 
 
         if (this.state.Ivalues !== prevState.Ivalues || this.state.values !== prevState.values) {
             if (JSON.stringify(this.state.values) !== JSON.stringify(this.state.Ivalues))
