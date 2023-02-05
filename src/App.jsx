@@ -30,7 +30,8 @@ const SliderContainer = styled(Box)(({ theme }) => ({
     borderRadius: "30px",
     paddingLeft: "30px",
     paddingRight: "30px",
-    paddingTop: "6px",
+    display: "flex",
+    alignItems: "center",
     [theme.breakpoints.up('md')]: {
         width: "50vw"
     },
