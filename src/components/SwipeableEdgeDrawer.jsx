@@ -8,22 +8,18 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
-const drawerBleeding = 56;
-
-const Root = styled("div")(({ theme }) => ({
-    height: "100%",
-    backgroundColor:
-        theme.palette.mode === "light" ? grey[100] : theme.palette.background.default,
+const Root = styled("div")(() => ({
+    height: "100%"  
 }));
 
-const StyledBox = styled(Box)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
+const StyledBox = styled(Box)(() => ({
+    backgroundColor: "#fff",
 }));
 
-const Puller = styled(Box)(({ theme }) => ({
+const Puller = styled(Box)(() => ({
     width: 30,
     height: 6,
-    backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
+    backgroundColor: grey[300],
     borderRadius: 3,
     position: "absolute",
     top: 8,
@@ -46,7 +42,7 @@ export default function SwipeableEdgeDrawer(props) {
             <Global
                 styles={{
                     ".MuiDrawer-root > .MuiPaper-root": {
-                        height: `calc(50% - ${drawerBleeding}px)`,
+                        height: `calc(50% - 56px)`,
                         overflow: "visible",
                     },
                 }}
@@ -60,7 +56,7 @@ export default function SwipeableEdgeDrawer(props) {
                 open={open}
                 onClose={toggleDrawer(false)}
                 onOpen={toggleDrawer(true)}
-                swipeAreaWidth={drawerBleeding}
+                swipeAreaWidth={56}
                 disableSwipeToOpen={false}
                 ModalProps={{
                     keepMounted: true,
@@ -69,13 +65,13 @@ export default function SwipeableEdgeDrawer(props) {
                 <StyledBox
                     sx={{
                         position: "absolute",
-                        top: -drawerBleeding,
+                        top: -56,
                         borderTopLeftRadius: 8,
                         borderTopRightRadius: 8,
                         visibility: "visible",
                         right: 0,
                         left: 0,
-                        height: drawerBleeding
+                        height: 56
                     }}
                 >
                     <Puller />
