@@ -133,27 +133,35 @@ class App extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const move = e => {
+        const move = mouse => e => {
             if (this.state.mouseDown) {
-                this.ball.current.style.transform = `translate(${((this.state.ball.x + e.clientX) / 2 - this.state.ball.x) * 0.2}px, ${((this.state.ball.y + e.clientY) / 2 - this.state.ball.y) * 0.2}px)`
+                let x, y;
+                if (mouse) {
+                    x = e.clientX;
+                    y = e.clientY;
+                }
+                else {
+                    x = e.changedTouches[0].clientX;
+                    y = e.changedTouches[0].clientY;
+                }
+                this.ball.current.style.transform = `translate(${((this.state.ball.x + x) / 2 - this.state.ball.x) * 0.2}px, ${((this.state.ball.y + y) / 2 - this.state.ball.y) * 0.2}px)`
             }
         }
-        window.addEventListener("mousemove", move)
-        window.addEventListener("touchmove", move)
+        window.addEventListener("mousemove", move(true));
+        window.addEventListener("touchmove", move(false));
 
         const up = mouse => e => {
             if (this.state.mouseDown) {
                 let x, y;
                 if (mouse) {
-                    x = e.pageX;
-                    y = e.pageY;
+                    x = e.clientX;
+                    y = e.clientY;
                 }
                 else {
-                    x = e.changedTouches[0].pageX;
-                    y = e.changedTouches[0].pageY;
+                    x = e.changedTouches[0].clientX;
+                    y = e.changedTouches[0].clientY;
                 }
 
-                console.log(x, y);
                 this.ball.current.style.transform = "translate(0px, 0px)";
                 this.setState({ mouseDown: false, ball: { ...this.state.ball, velocity: Math.sqrt((this.state.ball.x - x + 10) ** 2 + (this.state.ball.y - y + 10) ** 2) / 5, direction: Math.atan2(this.state.ball.y - y + 10, this.state.ball.x - x + 10) } });
                 setTimeout(this.moveBall.bind(this), 16);
