@@ -47,7 +47,7 @@ export default function SwipeableEdgeDrawer(props) {
                     },
                 }}
             />
-            <Box sx={{ textAlign: 'center', pt: 1 }}>
+            <Box sx={{ textAlign: 'center', pt: 1, mb: 56, height: 48 }}>
               <Button onClick={toggleDrawer(true)}>Conditions</Button>
             </Box>
             <SwipeableDrawer
