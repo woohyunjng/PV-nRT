@@ -1,6 +1,8 @@
 import React from "react";
 import { styled } from '@mui/material/styles';
 import Box from "@mui/material/Box";
+import Fab from "@mui/material/Fab";
+import Backdrop from "@mui/material/Backdrop";
 import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
 import Radio from "@mui/material/Radio";
@@ -40,6 +42,17 @@ const SliderContainer = styled(Box)(({ theme }) => ({
     },
 }));
 
+const StyledFab = styled(Fab)(({ theme }) => ({
+    position: "absolute",
+    top: 16,
+    left: 16,
+    
+    [theme.breakpoints.down('md')]: {
+        width: "200px",
+        fontSize: "10px"
+    },
+}))
+
 class App extends React.Component {
     state = {
         values: {
@@ -66,7 +79,8 @@ class App extends React.Component {
         
         changed: false,
         mouseDown: false,
-        volume: 1
+        volume: 1,
+        open: false
     }
 
     range = {
@@ -144,7 +158,6 @@ class App extends React.Component {
                     x = e.changedTouches[0].clientX;
                     y = e.changedTouches[0].clientY;
                 }
-                console.log(x, y, "a")
                 this.ball.current.style.transform = `translate(${((this.state.ball.x + x) / 2 - this.state.ball.x) * 0.2}px, ${((this.state.ball.y + y) / 2 - this.state.ball.y) * 0.2}px)`
             }
         }
@@ -164,7 +177,7 @@ class App extends React.Component {
                 }
 
                 this.ball.current.style.transform = "translate(0px, 0px)";
-                this.setState({ mouseDown: false, ball: { ...this.state.ball, velocity: Math.sqrt((this.state.ball.x - x + 10) ** 2 + (this.state.ball.y - y + 10) ** 2) / 5, direction: Math.atan2(this.state.ball.y - y + 10, this.state.ball.x - x + 10) } });
+                this.setState({ mouseDown: false, ball: { ...this.state.ball, velocity: Math.sqrt((this.state.ball.x - x + 10) ** 2 + (this.state.ball.y - y + 10) ** 2) * Math.sqrt(this.state.values.temperature + 273) / 50, direction: Math.atan2(this.state.ball.y - y + 10, this.state.ball.x - x + 10) } });
                 setTimeout(this.moveBall.bind(this), 16);
             }
         }
@@ -222,6 +235,13 @@ class App extends React.Component {
                         }}
                     />
                 </SliderContainer>
+
+                <StyledFab
+                    variant="extended"
+                    onClick={() => this.setState({ open: true })}
+                >
+                    Average kinetic energy of a gas particle : {Math.round(207 * (this.state.values.temperature + 273)) / 100} × 10⁻²³
+                </StyledFab>
                 
                 <SwipeableEdgeDrawer>
                     <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
@@ -285,6 +305,15 @@ class App extends React.Component {
                         </Button>
                     </Box>
                 </SwipeableEdgeDrawer>
+
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={this.state.open}
+                    onClick={() => this.setState({ open: !this.state.open })}
+                >
+                    PV = nRT <br />
+                    Ek = 3/2kT
+                </Backdrop>
             </>
         )
     }
